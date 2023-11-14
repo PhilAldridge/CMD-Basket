@@ -11,7 +11,7 @@ public class PriceBasket {
     public static void main(String[] args) {
 
         if(args.length == 0) {
-            System.out.println("No item arguments provided.");
+            printLine("No item arguments provided.");
             return;
         }
         if (invalidItemCalled(args)) return;
@@ -20,7 +20,7 @@ public class PriceBasket {
 
         //Calculate and output subtotal
         Money subTotal = calculateSubtotal(basket);
-        System.out.println("Subtotal: "+subTotal.toFormattedString());
+        printLine("Subtotal: "+subTotal.toFormattedString());
 
         //Get list of applicable discounts
         Offers offers = new Offers();
@@ -32,7 +32,7 @@ public class PriceBasket {
     private static boolean invalidItemCalled(String[] args) {
         for(String arg: args) {
             if(!Catalogue.itemsList.containsKey(arg)){
-                System.out.println("Invalid item provided");
+                printLine("Invalid item provided");
                 return true;
             }
         }
@@ -55,19 +55,27 @@ public class PriceBasket {
     private static void applyDiscounts(Money total, ArrayList<DiscountDetails> discountsApplied) {
         boolean discountsUsed = false;
 
+        //prints line for discount and subtracts the discount from the subtotal
         for(DiscountDetails discountDetails : discountsApplied) {
             if(discountDetails == null){
                 continue;
             }
             discountsUsed = true;
             Money discountAmount = new Money(discountDetails.amount);
-            System.out.println(discountDetails.name+": -"+discountAmount.toFormattedString());
+            printLine(discountDetails.name+": -"+discountAmount.toFormattedString());
             total.subtract(discountDetails.amount);
         }
+
+
         if(!discountsUsed) {
-            System.out.println("(no offers available)");
+           printLine("(no offers available)");
         }
 
-        System.out.println("Total: " + total.toFormattedString());
+        printLine("Total: " + total.toFormattedString());
+    }
+
+    //Put into separate method to ease switching of output formats
+    private static void printLine(String string) {
+        System.out.println(string);
     }
 }
