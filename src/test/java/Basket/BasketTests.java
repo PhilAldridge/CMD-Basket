@@ -2,7 +2,6 @@ package Basket;
 
 import org.Basket.PriceBasket;
 import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 
 public class BasketTests {
