@@ -1,80 +1,78 @@
 package org.Basket;
 
+import org.Discounts.ApplesDiscount;
+import org.Discounts.BreadDiscount;
+import org.Discounts.Discount;
 import org.Models.Catalogue;
 import org.Models.DiscountDetails;
-import org.Models.Item;
 import org.Models.Money;
+import org.Models.RealCatalogue;
+
 import java.util.ArrayList;
 
 public class PriceBasket {
 
     public static void main(String[] args) {
+        Catalogue catalogue = new RealCatalogue();
+        outPutBasketPrice(args,catalogue,new Discount[]{new ApplesDiscount(),new BreadDiscount()});
+    }
 
-        if(args.length == 0) {
-            printLine("No item arguments provided.");
-            return;
-        }
-        if (invalidItemCalled(args)) return;
+    public static void outPutBasketPrice(String[] args, Catalogue catalogue, Discount[] discounts) {
+        if (validInput(args, catalogue)) return;
+        //Setup basket
+        Basket basket = new Basket(catalogue,discounts);
+        basket.populateBasket(args);
 
-        ArrayList<Item> basket = populateBasket(args);
-
-        //Calculate and output subtotal
-        Money subTotal = calculateSubtotal(basket);
+        //Calculate and Print subTotal
+        Money subTotal = basket.getSubtotal();
         printLine("Subtotal: "+subTotal.toFormattedString());
 
-        //Get list of applicable discounts
-        Offers offers = new Offers();
-        ArrayList<DiscountDetails> discountsToApply = offers.getApplicable(basket);
+        //Calculate and Print discounts
+        ArrayList<DiscountDetails> discountsToApply = basket.getDiscounts();
+        printDiscounts(discountsToApply);
 
-        //Calculate Final Total After Discounts
-        applyDiscounts(subTotal, discountsToApply);
-    }
-    private static boolean invalidItemCalled(String[] args) {
-        for(String arg: args) {
-            if(!Catalogue.itemsList.containsKey(arg)){
-                printLine("Invalid item provided");
-                return true;
-            }
-        }
-        return false;
-    }
-    private static ArrayList<Item> populateBasket(String[] args) {
-        ArrayList<Item> basket = new ArrayList<>();
-        for(String arg: args) {
-            basket.add(new Item(arg, Catalogue.itemsList.get(arg)));
-        }
-        return basket;
-    }
-    private static Money calculateSubtotal(ArrayList<Item> basket){
-        Money subTotal = new Money("0.00");
-        for(Item item: basket){
-            subTotal.add(item.price);
-        }
-        return subTotal;
-    }
-    private static void applyDiscounts(Money total, ArrayList<DiscountDetails> discountsApplied) {
-        boolean discountsUsed = false;
-
-        //prints line for discount and subtracts the discount from the subtotal
-        for(DiscountDetails discountDetails : discountsApplied) {
-            if(discountDetails == null){
-                continue;
-            }
-            discountsUsed = true;
-            Money discountAmount = new Money(discountDetails.amount);
-            printLine(discountDetails.name+": -"+discountAmount.toFormattedString());
-            total.subtract(discountDetails.amount);
-        }
-
-
-        if(!discountsUsed) {
-           printLine("(no offers available)");
-        }
-
+        //Calculate and Print Total
+        Money total = calculateTotal(subTotal,discountsToApply);
         printLine("Total: " + total.toFormattedString());
     }
 
-    //Put into separate method to ease switching of output formats
+    private static boolean validInput(String[] args, Catalogue catalogue) {
+        if(args.length==0){
+            printLine("No item arguments provided.");
+            return true;
+        }
+        if(!catalogue.validItemList(args)){
+            printLine("Invalid item provided");
+            return true;
+        }
+        return false;
+    }
+
+    private static void printDiscounts(ArrayList<DiscountDetails> discounts) {
+        boolean discountsApplied = false;
+        for(DiscountDetails discount: discounts) {
+            if(discount == null){
+                continue;
+            }
+            discountsApplied = true;
+            Money discountAmount = new Money(discount.amount);
+            printLine(discount.name+": -"+discountAmount.toFormattedString());
+        }
+        if(!discountsApplied) {
+            printLine("(no offers available)");
+        }
+    }
+
+    private static Money calculateTotal(Money subTotal, ArrayList<DiscountDetails> discounts) {
+        Money total = new Money(subTotal.amount);
+        for(DiscountDetails discount: discounts) {
+            if(discount != null) {
+                total.subtract(discount.amount);
+            }
+        }
+        return total;
+    }
+
     private static void printLine(String string) {
         System.out.println(string);
     }

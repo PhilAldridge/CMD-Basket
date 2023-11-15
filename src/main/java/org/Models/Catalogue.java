@@ -4,12 +4,19 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-public record Catalogue() {
-    public static final Map<String, BigDecimal> itemsList = new HashMap<String, BigDecimal>();
-    static {
-        itemsList.put("Soup", new BigDecimal("0.65"));
-        itemsList.put("Bread", new BigDecimal("0.80"));
-        itemsList.put("Milk", new BigDecimal("1.30"));
-        itemsList.put("Apples", new BigDecimal("1.00"));
+public class Catalogue {
+    final Map<String, BigDecimal> itemsList = new HashMap<>();
+    public boolean itemExists(String item){
+        return itemsList.containsKey(item);
+    }
+    public BigDecimal getPrice(String item) {
+        return itemsList.get(item);
+    }
+
+    public boolean validItemList(String[] args) {
+        for(String item: args) {
+            if(!itemsList.containsKey(item)) return false;
+        }
+        return true;
     }
 }

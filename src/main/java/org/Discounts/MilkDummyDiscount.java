@@ -8,8 +8,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ApplesDiscount implements Discount {
-    private final int percentDiscount = 10;
+public class MilkDummyDiscount implements Discount {
+    private final int percentDiscount = 15;
 
     @Override
     public DiscountDetails apply(ArrayList<Item> basket) {
@@ -17,7 +17,7 @@ public class ApplesDiscount implements Discount {
 
         //add up price of all apples in basket
         for(Item item : basket) {
-            if(Objects.equals(item.name, "Apples")) {
+            if(Objects.equals(item.name, "Milk")) {
                 totalToDiscount.add(item.price);
             }
         }
@@ -25,6 +25,6 @@ public class ApplesDiscount implements Discount {
         if(totalToDiscount.amount.equals(new BigDecimal("0.00"))) return null;
 
         BigDecimal discountAmount = totalToDiscount.getDiscount(percentDiscount);
-        return (new DiscountDetails("Apples "+ percentDiscount +"% off", discountAmount));
+        return (new DiscountDetails("Milk "+percentDiscount+ "% off", discountAmount));
     }
 }
