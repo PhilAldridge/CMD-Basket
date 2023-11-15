@@ -1,7 +1,7 @@
 package Basket;
 
-import org.Models.Catalogue;
-import org.Models.DummyCatalogue;
+import org.Catalogue.Catalogue;
+import org.Catalogue.DummyCatalogue;
 import org.junit.Test;
 
 import java.math.BigDecimal;

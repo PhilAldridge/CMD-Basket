@@ -1,7 +1,7 @@
 package org.Basket;
 
 import org.Discounts.Discount;
-import org.Models.Catalogue;
+import org.Catalogue.Catalogue;
 import org.Models.DiscountDetails;
 import org.Models.Item;
 import org.Models.Money;

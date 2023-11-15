@@ -3,8 +3,8 @@ import org.Basket.PriceBasket;
 import org.Discounts.ApplesDiscount;
 import org.Discounts.BreadDiscount;
 import org.Discounts.Discount;
-import org.Models.Catalogue;
-import org.Models.DummyCatalogue;
+import org.Catalogue.Catalogue;
+import org.Catalogue.DummyCatalogue;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 public class BasketPriceTests {

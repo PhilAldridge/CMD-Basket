@@ -1,4 +1,4 @@
-package org.Models;
+package org.Catalogue;
 
 import java.math.BigDecimal;
 import java.util.HashMap;

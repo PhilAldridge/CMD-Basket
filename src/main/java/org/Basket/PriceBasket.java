@@ -3,10 +3,10 @@ package org.Basket;
 import org.Discounts.ApplesDiscount;
 import org.Discounts.BreadDiscount;
 import org.Discounts.Discount;
-import org.Models.Catalogue;
+import org.Catalogue.Catalogue;
 import org.Models.DiscountDetails;
 import org.Models.Money;
-import org.Models.RealCatalogue;
+import org.Catalogue.RealCatalogue;
 
 import java.util.ArrayList;
 

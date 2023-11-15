@@ -6,7 +6,7 @@ import org.Discounts.BreadDiscount;
 import org.Discounts.Discount;
 import org.Discounts.MilkDummyDiscount;
 import org.Models.DiscountDetails;
-import org.Models.DummyCatalogue;
+import org.Catalogue.DummyCatalogue;
 import org.Models.Item;
 import org.Models.Money;
 import org.junit.Test;
