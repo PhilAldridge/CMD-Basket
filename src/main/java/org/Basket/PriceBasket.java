@@ -1,20 +1,26 @@
 package org.Basket;
 
+import com.opencsv.exceptions.CsvException;
 import org.Discounts.ApplesDiscount;
 import org.Discounts.BreadDiscount;
 import org.Discounts.Discount;
 import org.Catalogue.Catalogue;
 import org.Models.DiscountDetails;
 import org.Models.Money;
-import org.Catalogue.RealCatalogue;
+import org.Catalogue.CsvCatalogue;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class PriceBasket {
 
     public static void main(String[] args) {
-        Catalogue catalogue = new RealCatalogue();
-        outPutBasketPrice(args,catalogue,new Discount[]{new ApplesDiscount(),new BreadDiscount()});
+        try {
+            Catalogue catalogue = new CsvCatalogue();
+            outPutBasketPrice(args, catalogue, new Discount[]{new ApplesDiscount(), new BreadDiscount()});
+        } catch (IOException | CsvException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     public static void outPutBasketPrice(String[] args, Catalogue catalogue, Discount[] discounts) {

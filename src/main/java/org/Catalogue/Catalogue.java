@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Catalogue {
-    final Map<String, BigDecimal> itemsList = new HashMap<>();
+    Map<String, BigDecimal> itemsList = new HashMap<>();
     public final boolean itemExists(String item){
         return itemsList.containsKey(item);
     }
